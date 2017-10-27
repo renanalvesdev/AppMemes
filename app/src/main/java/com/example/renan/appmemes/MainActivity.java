@@ -38,37 +38,58 @@ public class MainActivity extends AppCompatActivity {
     ListView mListView;
 
     int[] audiosRage = new int[]{R.raw.rage_maior_piada,
+            R.raw.rage_agente_da_perversidade,
+            R.raw.rage_cala_a_boca,
+            R.raw.rage_castigo_bom,
             R.raw.rage_ensinar,
-            R.raw.rage_voce_eh_zoeiro,
             R.raw.rage_eu_sou_bosta,
+            R.raw.rage_falencia_humana,
             R.raw.rage_gordo_baleiudo,
+            R.raw.rage_idiota_animal_burro,
+            R.raw.rage_maior_piada,
             R.raw.rage_maior_roubo,
             R.raw.rage_nao_tem_graca,
+            R.raw.rage_o_que_tem_na_cabeca,
             R.raw.rage_pais_retardados,
+            R.raw.rage_proibido,
             R.raw.rage_puta_que_pariu,
+            R.raw.rage_veio,
             R.raw.rage_veio_viado,
             R.raw.rage_voce_destroi,
-            R.raw.rage_voce_idiota,
+            R.raw.rage_voce_eh_zoeiro,
             R.raw.rage_voce_entende,
-            R.raw.rage_nao_tem_graca
+            R.raw.rage_voce_idiota,
+            R.raw.rage_voce_nao_tem,
+            R.raw.rage_voce_ta_rindo
 
 
     };
 
     String[] frasesDiversas = {"Como se fosse a maior piada do mundo",
-            "É você que vai me ensinar ?",
-            "Você é zoeiro mesmo",
+            "Agente da perversidade e do mal",
+            "Cala a boca",
+            "Castigo bom",
+            "Você vai me ensinar ?",
             "Eu sou um bosta",
+            "Falência humana",
             "Gordo baleiudo",
-            "Maior roubo da história",
+            "Idiota, animal, burro",
+            "Maior piada",
+            "Maior roubo",
             "Não tem graça",
+            "O que tem na cabeça",
             "País de retardados",
+            "Você está proibido",
             "Puta que pariu",
-            "Véio Viado",
+            "Veio",
+            "Veio viado",
             "Você destrói esse país",
-            "Você é um idiota",
+            "Zoeiro",
             "Você entende isso ?",
+            "Idiota",
+            "Você não tem vergonha ?",
             "Você tá rindo ?"
+
             };
 
     public MainActivity() throws IOException {

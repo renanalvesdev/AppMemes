@@ -1,10 +1,15 @@
 package com.example.renan.appmemes;
 
+import android.Manifest;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,19 +20,24 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import static android.R.attr.name;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class ActImitacoes extends AppCompatActivity {
+
+    private static final int REQUEST_READ_STORAGE = 112 ;// REQUEST_READ_STORAGE = 113;
+
 
     MediaPlayer mp ;
 
     ListView mListView;
 
-    //frases diversas
-    int[] audiosImitacoes = new int[]{
-            1/*R.raw.im_pirula_mas_o_que,
-            R.raw.im_felipe_neto_malakoi,
+    int[] audiosRage = new int[]{R.raw.im_felipe_neto_malakoi,
             R.raw.im_maestro_bandjido,
             R.raw.im_maestro_bofobics,
             R.raw.im_maestro_dando_boura,
@@ -35,30 +45,34 @@ public class ActImitacoes extends AppCompatActivity {
             R.raw.im_pirula_ameacas_crentes,
             R.raw.im_pirula_ameacas_mesmo,
             R.raw.im_pirula_mas_o_que,
-            R.raw.im_pirula_mosexual,*/
-
-
+            R.raw.im_pirula_mosexual
 
     };
 
-    String[] frasesImitacoes = {"Mas o que é isso ?",
-            "Malakoi",
+    String[] frasesDiversas = {"Malakoi",
             "Bandjido !",
-            "Mophóbics",
-            "Aah Dando Boura !",
-            "Ilítico",
-            "Ameaças crentes",
-            "Ameaças mesmo",
-            "Mas o que é isso ?",
-            "Cavalos marinhos homossexuais",
-
+            "Mophobics",
+            "Ahh Dando Moura",
+            "Ilícito",
+            "Esse tipo de ameaça só parte dos crentes",
+            "Ameaças, ameaças mesmo",
+            "Mas o que é isso !?",
+            "Cavalos marinhos mossexuais",
+            
     };
+
+    public ActImitacoes() throws IOException {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_act_imitacoes);
+
+        //permissao
+        EnableRuntimePermission(REQUEST_READ_STORAGE);
+
 
         mListView = (ListView) findViewById(R.id.listView);
         CustomAdapter customAdapter = new CustomAdapter();
@@ -77,7 +91,9 @@ public class ActImitacoes extends AppCompatActivity {
                     mp = null;
                 }
 
-                mp = MediaPlayer.create(ActImitacoes.this, audiosImitacoes[position]);
+                /*audiosRage[position]*/
+
+                mp = MediaPlayer.create(ActImitacoes.this, audiosRage[position]);
                 mp.start();
 
 
@@ -87,6 +103,26 @@ public class ActImitacoes extends AppCompatActivity {
         //clicando para compartilhar o áudio via whatsapp
 
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+
+            case REQUEST_READ_STORAGE:
+
+                if (grantResults.length > 0) {
+
+                    boolean writeExternalFile = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+                    if (writeExternalFile) {
+                    } else {
+                        Toast.makeText(ActImitacoes.this, "Allow permissions to Edit the Image", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+                break;
+        }
     }
 
     @Override
@@ -102,7 +138,7 @@ public class ActImitacoes extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return frasesImitacoes.length;
+            return frasesDiversas.length;
         }
 
         @Override
@@ -125,25 +161,86 @@ public class ActImitacoes extends AppCompatActivity {
 
 
             //  mImageView.setImageResource(R.drawable.ic_play_circle_outline_black_24dp);
-            mTextView.setText(frasesImitacoes[position]);
+            mTextView.setText(frasesDiversas[position]);
+
+
 
             //implementando o compartilhamento dos áudios
             shareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
 
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
+                    InputStream inputStream;
+                    FileOutputStream fileOutputStream;
 
-                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    sharingIntent.setType("audio/*");
-                    sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(
-                            "android.resource://"+getPackageName()+"/raw/"+ getResources().getResourceEntryName(audiosImitacoes[position])
+                    //teste depois sem absolute Path
+                    File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/appMemes2/");
+                    if(!dir.exists()){
+                        dir.mkdirs();
+                    }
 
-                    ));
-                    startActivity(Intent.createChooser(sharingIntent, "Compartilhar via:"));
+                    try
+                    {
+                        inputStream = getResources().openRawResource(audiosRage[position]);
+                        fileOutputStream = new FileOutputStream(new File(Environment.getExternalStorageDirectory()+"/appMemes2/",
+                                getResources().getResourceEntryName(audiosRage[position])+".mp3" ));
+
+                        byte[] buffer = new byte[1024];
+                        int length;
+
+                        while ((length = inputStream.read(buffer)) > 0)
+                        {
+                            fileOutputStream.write(buffer, 0, length);
+                        }
+
+                        inputStream.close();
+                        fileOutputStream.close();
+
+
+                    }
+
+                    catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_STREAM,
+                            Uri.parse("file://" + Environment.getExternalStorageDirectory() + "/appMemes2/"+getResources().getResourceEntryName(audiosRage[position])+".mp3" ));
+                    intent.setType("audio/*");
+                    startActivity(Intent.createChooser(intent, "Share sound"));
                 }
             });
 
             return view;
         }
     }
+
+
+
+    //método para compartilhamento
+
+
+    private void EnableRuntimePermission(int codigo) {
+        if (ContextCompat.checkSelfPermission(ActImitacoes.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale
+                    (ActImitacoes.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                Toast.makeText(ActImitacoes.this, "Allow permissions", Toast.LENGTH_LONG).show();
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(
+                            new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, codigo);
+                }
+            }
+        }
+    }
+
+
+
+
 }
