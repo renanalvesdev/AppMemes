@@ -1,4 +1,4 @@
-package com.example.renan.appmemes;
+package com.moura.nando.memes;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

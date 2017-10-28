@@ -1,4 +1,4 @@
-package com.example.renan.appmemes;
+package com.moura.nando.memes;
 
 import org.junit.Test;
 

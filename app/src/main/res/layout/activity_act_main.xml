@@ -7,7 +7,7 @@
     android:background="@drawable/edit_zoeiro"
     android:backgroundTint="#99000000"
     android:backgroundTintMode="src_over"
-    tools:context="com.example.renan.appmemes.ActMain">
+    tools:context="com.moura.nando.memes.ActMain">
 
     <ImageButton
         android:id="@+id/btnImitacoes"

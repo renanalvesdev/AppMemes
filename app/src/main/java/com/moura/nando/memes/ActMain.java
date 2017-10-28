@@ -1,4 +1,4 @@
-package com.example.renan.appmemes;
+package com.moura.nando.memes;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
