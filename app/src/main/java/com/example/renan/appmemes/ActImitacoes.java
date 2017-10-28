@@ -37,28 +37,32 @@ public class ActImitacoes extends AppCompatActivity {
 
     ListView mListView;
 
-    int[] audiosRage = new int[]{R.raw.im_felipe_neto_malakoi,
+    int[] audiosRage = new int[]{
+            R.raw.fino_mas_o_que,
+            R.raw.im_pirula_mas_o_que,
+            R.raw.im_felipe_neto_malakoi,
             R.raw.im_maestro_bandjido,
             R.raw.im_maestro_bofobics,
             R.raw.im_maestro_dando_boura,
             R.raw.im_maestro_ilicito,
             R.raw.im_pirula_ameacas_crentes,
             R.raw.im_pirula_ameacas_mesmo,
-            R.raw.im_pirula_mas_o_que,
             R.raw.im_pirula_mosexual
 
     };
 
-    String[] frasesDiversas = {"Malakoi",
+    String[] frasesDiversas = {
+            "Mickey Moura - Mas o que é isso ?",
+            "Mas o que é isso !?",
+            "Malakoi",
             "Bandjido !",
             "Mophobics",
             "Ahh Dando Moura",
             "Ilícito",
             "Esse tipo de ameaça só parte dos crentes",
             "Ameaças, ameaças mesmo",
-            "Mas o que é isso !?",
             "Cavalos marinhos mossexuais",
-            
+
     };
 
     public ActImitacoes() throws IOException {
